@@ -34,4 +34,14 @@ public class DriversController : ControllerBase
 
         return Ok(driver);
     }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateDriver(Driver driver)
+    {
+        _context.Add(driver);
+        
+        await _context.SaveChangesAsync();
+        
+        return CreatedAtAction(nameof(GetDriverDetails), driver, driver.Id);
+    }
 }
