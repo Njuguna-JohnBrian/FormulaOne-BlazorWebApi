@@ -1,0 +1,45 @@
+﻿@page "/driverdetails"
+@page "/driverdetails/{id}"
+@if (string.IsNullOrEmpty(Id))
+{
+    <PageTitle>Add New Driver</PageTitle>
+    <h2>Add New Driver</h2>
+}
+else
+{
+    <PageTitle>Manage Driver</PageTitle>
+    <h2>Manage Drivers</h2>
+}
+
+
+<div class="row">
+    <EditForm Model="@driver"
+              OnValidSubmit="@HandleValidRequest"
+              OnInvalidSubmit="@HandleFailedRequest">
+        <div class="form-group">
+            <label class="col-md-3">Name</label>
+            <InputText class="col-md-8 form-control" @bind-Value="@driver.Name"></InputText>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3">Team</label>
+            <InputText class="col-md-8 form-control" @bind-Value="@driver.Team"></InputText>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3">Racing Number</label>
+            <InputText class="col-md-8 form-control" @bind-Value="@driver.RacingNb"></InputText>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning">Save Driver</button>
+            <a href="" @onclick="GoToDrivers" class="btn btn-primary">Back</a>
+            @if (!string.IsNullOrEmpty(Id))
+            {
+                <a @onclick="DeleteDriver" class="btn btn-danger">Delete Driver</a>
+            }
+        </div>
+
+        <br>
+        <p style="color: red">@Message</p>
+    </EditForm>
+</div>
