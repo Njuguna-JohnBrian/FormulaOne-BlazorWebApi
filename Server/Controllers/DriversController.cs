@@ -39,9 +39,40 @@ public class DriversController : ControllerBase
     public async Task<ActionResult> CreateDriver(Driver driver)
     {
         _context.Add(driver);
-        
+
         await _context.SaveChangesAsync();
-        
+
         return CreatedAtAction(nameof(GetDriverDetails), driver, driver.Id);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateDriver(Driver driver, int id)
+    {
+        var driverExists = await _context.Drivers.FirstOrDefaultAsync(dr => dr.Id == driver.Id);
+
+        if (driverExists == null)
+            return NotFound();
+
+        driverExists.Name = driver.Name;
+        driverExists.RacingNb = driver.RacingNb;
+        driverExists.Team = driver.Team;
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteDriver(int id)
+    {
+        var driverExists = await _context.Drivers.FirstOrDefaultAsync(dr => dr.Id == id);
+
+        if (driverExists == null)
+            return NotFound();
+
+        _context.Remove(driverExists);
+
+        return NoContent();
     }
 }
